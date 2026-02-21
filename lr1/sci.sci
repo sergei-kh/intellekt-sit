@@ -42,9 +42,38 @@ for i = 1:length(x)
     end
 end
 
+
+Tmin  = min(muA1, muA2);
+Tprod = muA1 .* muA2;
+Tmax = max(0, muA1 + muA2 - 1);
+Tdelta = zeros(muA1);
+for i = 1:length(muA1)
+    if muA2(i) == 1 then
+        Tdelta(i) = muA1(i);
+    elseif muA1(i) == 1 then
+        Tdelta(i) = muA2(i);
+    else
+        Tdelta(i) = 0;
+    end
+end
+
+Smax = max(muA1, muA2);
+Ssum = muA1 + muA2 - muA1 .* muA2;
+Smin = min(muA1 + muA2, 1);
+Sdelta = zeros(muA1);
+for i = 1:length(muA1)
+    if muA2(i) == 0 then
+        Sdelta(i) = muA1(i);
+    elseif muA1(i) == 0 then
+        Sdelta(i) = muA2(i);
+    else
+        Sdelta(i) = 1;
+    end
+end
+
 // Построение графика
 clf();
-plot(x, muA1, 'r-', x, muA2, 'g-', x, muA3, 'b-');
+plot(x, muA1, 'r-', x, muA2, 'g-', x, muA3, 'b-', x, Sdelta, 'd--');
 xlabel("Скорость ветра, м/с");
 ylabel("Степень принадлежности");
 legend("Слабая", "Средняя", "Довольно сильная");
